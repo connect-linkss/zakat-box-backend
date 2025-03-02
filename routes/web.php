@@ -31,18 +31,14 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::get('logout', [LoginController::class, 'logout'])->name('logout');
     })->middleware(RedirectIfAuthenticated::class);
     Route::group(['middleware' => AdminMiddleware::class], function () {
-        Route::get('/', [SystemController::class, 'dashboard'])->name('dashboard');
+        Route::get('/', [SystemController::class, 'index'])->name('dashboard');
         Route::post('order-stats', [SystemController::class, 'orderStats'])->name('order-stats');
         Route::get('settings', [SystemController::class, 'settings'])->name('settings');
         Route::post('settings', [SystemController::class, 'settingsUpdate'])->name('setting-update');
         Route::post('settings-password', [SystemController::class, 'settingsPasswordUpdate'])->name('settings-password');
-        Route::group(['prefix' => 'business-settings', 'as' => 'business-settings.'], function () {
-            Route::get('ecom-setusp', [BusinessSettingsController::class, 'BusinessSetup'])->name('ecom-setup');
-            Route::post('update-setup', [BusinessSettingsController::class, 'BusinessSetupUpdate'])->name('update-setup');
-            Route::get('db-index', [DatabaseSettingsController::class, 'databaseIndex'])->name('db-index');
-            Route::post('generate-backup', [DatabaseSettingsController::class, 'generateBackup'])->name('generate-backup');
-            Route::get('download-backup/{id}', [DatabaseSettingsController::class, 'downloadBackup'])->name('download-backup');
-            Route::get('backup', [DatabaseSettingsController::class, 'backup'])->name('backup');
+
+        Route::group(['prefix' => 'donate', 'as' => 'donate.'], function () {
+            Route::get('filter', [SystemController::class, 'filter'])->name('filter');
         });
     });
 });

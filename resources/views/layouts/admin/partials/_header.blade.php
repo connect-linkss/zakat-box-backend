@@ -1,46 +1,23 @@
-<div id="headerMain" class="d-none">
+<div id="headerMain">
     <header id="header"
-            class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-flush navbar-container navbar-bordered">
+        class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-flush navbar-container navbar-bordered">
         <div class="navbar-nav-wrap">
-            
+
             <div class="navbar-brand-wrapper">
                 @php($logo = \app\CentralLogics\Helpers::get_business_settings('logo'))
                 <a class="navbar-brand" href="{{route('admin.dashboard')}}" aria-label="">
-                    <img class="navbar-brand-logo"
-                         src="{{'/public/images/'.$logo}}">
-                    <img class="navbar-brand-logo-mini"
-                         src="{{'/public/images/'.$logo}}">
+                    <img class="navbar-brand-logo" src="{{'/public/images/' . $logo}}">
                 </a>
             </div>
 
-            <div class="navbar-nav-wrap-content-left d-xl-none">
-                <button type="button" class="js-navbar-vertical-aside-toggle-invoker close mr-3">
-                    <i class="tio-first-page navbar-vertical-aside-toggle-short-align" data-toggle="tooltip"
-                       data-placement="right" title="Collapse"></i>
-                    <i class="tio-last-page navbar-vertical-aside-toggle-full-align"
-                       data-template='<div class="tooltip d-none d-sm-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
-                       data-toggle="tooltip" data-placement="right" title="Expand"></i>
-                </button>
-            </div>
 
             <div class="navbar-nav-wrap-content-right">
                 <ul class="navbar-nav align-items-center flex-row">
 
-                    <li class="nav-item d-sm-inline-block">
-                        <div class="sidebar--search-form py-3" style="position: relative;">
-                            <div class="search--form-group">
-                                <button type="button" class="btn"><i class="tio-search"></i></button>
-                                <input type="text" class="js-form-search form-control form--control" id="search-bar-input"
-                                    placeholder="Search customer...">
-                            </div>
-                            <ul id="search-results" class="list-group mt-2" style="display: none;position: absolute;width: 100%;">
-                            </ul>
-                        </div>
-                    </li>
                     <li class="nav-item ml-md-3">
                         <div class="hs-unfold">
-                            <a class="js-hs-unfold-invoker navbar-dropdown-account-wrapper media align-items-center gap-3 bg-transparent dropdown-toggle dropdown-toggle-left-arrow" href="javascript:;"
-                               data-hs-unfold-options='{
+                            <a class="js-hs-unfold-invoker navbar-dropdown-account-wrapper media align-items-center gap-3 bg-transparent dropdown-toggle dropdown-toggle-left-arrow"
+                                href="javascript:;" data-hs-unfold-options='{
                                      "target": "#accountNavbarDropdown",
                                      "type": "css-animation"
                                    }'>
@@ -49,21 +26,19 @@
                                     <span class="fs-12 text-capitalize">{{ translate('Super Admin') }}</span>
                                 </div>
                                 <div class="avatar avatar-sm avatar-circle">
-                                    <img class="avatar-img"
-                                         src="{{auth('web')->user()->image}}"
-                                         alt="{{ translate('Image') }}">
+                                    <img class="avatar-img" src="{{auth('web')->user()->image}}"
+                                        alt="{{ translate('Image') }}">
                                     <span class="avatar-status avatar-sm-status avatar-status-success"></span>
                                 </div>
                             </a>
 
                             <div id="accountNavbarDropdown"
-                                 class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right navbar-dropdown-menu navbar-dropdown-account">
+                                class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right navbar-dropdown-menu navbar-dropdown-account">
                                 <div class="dropdown-item-text">
                                     <div class="media gap-3 align-items-center">
                                         <div class="avatar avatar-sm avatar-circle mr-2">
-                                            <img class="avatar-img"
-                                                 src="{{auth('web')->user()->image}}"
-                                                 alt="{{ translate('Image') }}">
+                                            <img class="avatar-img" src="{{auth('web')->user()->image}}"
+                                                alt="{{ translate('Image') }}">
                                         </div>
                                         <div class="media-body">
                                             <span class="card-title h5">{{auth('web')->user()->name}}</span>
