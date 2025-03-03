@@ -3,41 +3,53 @@
 @section('title', translate('product List'))
 @section('content')
     <div class="content container-fluid">
+        <div class="d-flex justify-content-center mb-1">
+            @php($logo = \app\CentralLogics\Helpers::get_business_settings('logo'))
+            <img style="width: 180px;" src="{{'/public/images/' . $logo}}">
+        </div>
         <div class="card" style="text-align: center">
-            <div class="px-20 py-3 d-flex flex-wrap gap-3 justify-content-between">
-                <h5 class="d-flex align-items-center gap-2 mb-0">
-                    {{translate('donates_List')}}
-                </h5>
+            <div class="px-10 py-3 d-flex flex-wrap gap-3 justify-content-between">
+                <div class="d-flex align-items-center gap-4">
+                    <h5 class="d-flex align-items-center gap-2 mb-0" style="font-size: 20px;
+}">
+                        {{translate('عدد المتبرعين')}}
+                    </h5>
+                    <h4 style="margin: auto;background: #084b66;padding: 5px;border-radius: 6px;color: white;">12</h4>
+                </div>
+               
+                
                 <div class="billing">
                     <div>
-                        <span class="title">{{ translate('dollar') }}: </span>
+                        <span class="title">{{ translate('دولار') }}: </span>
                         <span class="value bold" id="total_sum_dollar">
                             {{ App\Models\Donate::getTodayTotalByType()['dollar'] }} $
                         </span>
                     </div>
                     <div>|</div>
                     <div>
-                        <span class="title">{{ translate('ll') }}: </span>
+                        <span class="title">{{ translate('لبناني') }}: </span>
                         <span class="value bold" id="total_sum_ll">
-                            {{ App\Models\Donate::getTodayTotalByType()['lebanon'] }} $
+                            {{ App\Models\Donate::getTodayTotalByType()['lebanon'] }} LL
                         </span>
                     </div>
                 </div>
             </div>
-            <div class="table-responsive mt-3 datatable-custom"
+            <div class="table-responsive datatable-custom"
                 style="max-height: 600px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #c4c4c4 #f1f1f1;">
                 <table
                     class="table table-hover table-borderless table-thead-bordered table-nowrap table-align-middle card-table">
                     <thead class="thead-light">
                         <tr>
-                            <th>{{translate('name')}}</th>
-                            <th>{{translate('address')}}</th>
-                            <th>{{translate('amount')}}</th>
+                            <th>{{translate('الرقم')}}</th>
+                            <th>{{translate('الاسم الثلاثي')}}</th>
+                            <th>{{translate('العنوان')}}</th>
+                            <th>{{translate('المبلغ')}}</th>
                         </tr>
                     </thead>
                     <tbody id="set-rows">
                         @foreach($donates as $donate)
                             <tr>
+                                <td>{{ $donate['id'] }}</td>
                                 <td>{{ $donate['name'] }}</td>
                                 <td>{{ $donate['address'] }}</td>
                                 <td>{{ $donate['amount']  }} {{ $donate['payment_currency'] == 1 ? '$' : 'LL'  }}</td>

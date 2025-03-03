@@ -1,9 +1,9 @@
 :root {
-    --c1: #673ab7;
+    --c1: #084b66;
     --c1-rgb: 103, 58, 183;
     --tc: #1e2022;
     --tc-rgb: 30, 32, 34;
-    --title-3: #673ab7;
+    --title-3: #084b66;
     --title-clr: #334257;
 
 }
@@ -939,7 +939,7 @@ dt {
 }
 
 :root {
-    --primary-clr: #673ab7
+    --primary-clr: #084b66
 }
 
 .custom--switch {
@@ -1047,7 +1047,7 @@ dt {
 
 .coupon__details-right {
     width: 142px;
-    background: #673ab7;
+    background: #084b66;
 }
 
 .coupon__details-left {
@@ -1727,37 +1727,37 @@ dt {
 
 .btn--primary {
     color: #fff;
-    background-color: #673ab7;
-    border-color: #673ab7
+    background-color: #084b66;
+    border-color: #084b66
 }
 
 .btn--primary:hover {
     color: #fff;
-    background-color: #673ab7;
-    border-color: #673ab7
+    background-color: #084b66;
+    border-color: #084b66
 }
 
 .btn--primary.focus,
 .btn-primary:focus {
     color: #fff;
-    background-color: #673ab7;
-    border-color: #673ab7;
+    background-color: #084b66;
+    border-color: #084b66;
     box-shadow: 0 0 0 .2rem rgba(85, 145, 255, .5)
 }
 
 .btn--primary.disabled,
 .btn--primary:disabled {
     color: #fff;
-    background-color: #673ab7;
-    border-color: #673ab7
+    background-color: #084b66;
+    border-color: #084b66
 }
 
 .btn--primary:not(:disabled):not(.disabled).active,
 .btn--primary:not(:disabled):not(.disabled):active,
 .show>.btn--primary.dropdown-toggle {
     color: #fff;
-    background-color: #673ab7;
-    border-color: #673ab7
+    background-color: #084b66;
+    border-color: #084b66
 }
 
 .btn--primary:not(:disabled):not(.disabled).active:focus,
@@ -1782,7 +1782,7 @@ dt {
 .number-count {
     width: 25px;
     height: 25px;
-    background: #673ab7;
+    background: #084b66;
     padding: 8px;
     display: flex;
     align-items: center;

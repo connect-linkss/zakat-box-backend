@@ -10,8 +10,9 @@ use App\Http\Controllers\LoginController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 
 
-Route::get('/', [ZakatController::class, 'index'])->name('index');
+Route::get('/', [ZakatController::class, 'donate'])->name('donate');
 Route::get('/data', [ZakatController::class, 'data'])->name('data');
+Route::get('/donate-list', [ZakatController::class, 'index'])->name('index');
 Route::get('/donate', [ZakatController::class, 'donate'])->name('donate');
 Route::post('/store', [ZakatController::class, 'store'])->name('store');
 

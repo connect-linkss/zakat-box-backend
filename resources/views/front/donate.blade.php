@@ -1,68 +1,76 @@
 @extends('layouts.front.app')
-@section('title', translate('POS'))
+@section('title', translate('Donate'))
 @section('content')
     <div class="content container-fluid" style="padding-top: 5px">
 
-        <div class="header-title-page mb-4">
-            <h3>{{translate('donate') }} </h3>
+        <div class="d-flex justify-content-center mb-4">
+            @php($logo = \app\CentralLogics\Helpers::get_business_settings('logo'))
+            <img style="width: 150px;" src="{{'/public/images/' . $logo}}">
         </div>
 
         <div class="add-services-container">
-            <div class="col-sm-12 col-md-10 col-lg-8  mb-12 mx-auto card">
+            <div class="col-sm-12 col-md-10 col-lg-8  mb-12 mx-auto card" style="max-width: 500px;">
                 <div class="card-body">
                     <div class="pl-2">
                         <div class="row">
-                            <div class="col-sm-3 form-group">
-                                <label class="input-label">{{ translate('Name') }}<span
+                            <div class="col-sm-6 form-group">
+                                <label class="input-label">{{ translate('الاسم الثلاثي') }}<span
                                         class="input-label-secondary text-danger">*</span></label>
-                                <input type="text" name="name" class="form-control" placeholder="{{ translate('Name') }}"
+                                <input type="text" name="name" class="form-control" placeholder="{{ translate('') }}"
                                     required id="name_input"
                                     oninput="this.value = this.value.replace(/\b\w/g, char => char.toUpperCase())">
                             </div>
-                            <div class="col-sm-3 form-group">
-                                <label class="input-label">{{ translate('phone') }}</label>
+                            <div class="col-sm-6 form-group">
+                                <label class="input-label">{{ translate('رقم الهاتف') }}<span
+                                class="input-label-secondary text-danger">*</span></label>
                                 <input type="text" name="phone" class="form-control" id="phone_input"
-                                    placeholder="{{ translate('phone') }}">
+                                    placeholder="{{ translate('') }}">
                             </div>
-                            <div class="col-sm-3 form-group">
-                                <label class="input-label">{{ translate('address') }}</label>
+                            <div class="col-sm-6 form-group">
+                                <label class="input-label">{{ translate('العنوان (اختياري)') }}</label>
                                 <input type="text" name="address" class="form-control" id="address_input"
-                                    placeholder="{{ translate('address') }}">
+                                    placeholder="{{ translate('') }}">
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="input-label">{{translate('payment_currency')}}<span
+                                    <label class="input-label">{{translate('آلية الدفع')}}<span class="input-label-secondary text-danger">*</span></label>
+                                    <div class="d-flex gap-4" style="margin-top: 18px">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="payment_type" id="payment_type_cash" value="1" checked>
+                                            <label class="form-check-label" for="payment_type_cash">نقدا</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="payment_type" id="payment_type_later" value="2">
+                                            <label class="form-check-label" for="payment_type_later">مراجعة لاحقا</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="input-label">{{translate('العملة')}}<span
                                             class="input-label-secondary text-danger">*</span></label>
                                     <select name="brand" class="form-control payment_currency_select "
                                         id="payment_currency_select">
-                                        <option value="1">dollar</option>
-                                        <option value="2">lebanon</option>
+                                        <option value="1">دولار</option>
+                                        <option value="2">لبناني</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="input-label">{{translate('payment_type')}}<span
-                                            class="input-label-secondary text-danger">*</span></label>
-                                    <select name="brand" id="payment_type_select" class="form-control payment_type_select ">
-                                        <option value="1">now</option>
-                                        <option value="2">latter</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="form-group">
-                                    <label class="input-label">{{translate('amount')}}<span
+                                    <label class="input-label">{{translate('قيمة التبرع')}}<span
                                             class="input-label-secondary text-danger">*</span></label>
                                     <input type="numeric" name="amount" class="form-control" value="0" id="amount_input"
-                                        placeholder="{{ translate('amount') }}">
+                                        placeholder="{{ translate('') }}">
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <form action="javascript:" id='order_place' method="post">
                                     <button type="submit" class="btn  btn-primary btn-block"><i
                                             class="fa fa-shopping-bag"></i>
-                                        {{translate('donate')}} </button>
+                                        {{translate('تبرع')}} </button>
                                 </form>
                             </div>
                         </div>
@@ -77,9 +85,13 @@
             <div class="modal-content">
 
                 <div class="modal-body">
-                    <div class="d-flex align-items-center gap-2 justify-content-center">
+                    <div class="d-flex align-items-center gap-2 justify-content-center" style="flex-direction: column;">
+                        <div class="d-flex justify-content-center mb-4">
+                            <img style="width: 150px;" src="{{'/public/images/' . $logo}}">
+                        </div>
+                        <p style="font-size: 24px; margin-bottom: 30px;">أخلف الله عليكم من فضله</p>
                         <a href="{{ route('index') }}"
-                            class="btn btn-success non-printable">{{ translate('see_the donation list') }}</a>
+                            class="btn btn-success non-printable">{{ translate('الذهاب للصفحة الرئيسية') }}</a>
                     </div>
                 </div>
             </div>
@@ -89,20 +101,39 @@
 @push('script_2')
     <script>
         "use strict";
+
+        document.getElementById('phone_input').addEventListener('input', function () {
+            let phone = this.value.trim();
+            let lebanonPhonePattern = /^(03|70|71|76|78|79)\d{6}$/;
+
+            if (!lebanonPhonePattern.test(phone)) {
+                this.setCustomValidity("Please enter a valid Lebanese phone number (8 digits starting with 03, 70, 71, 76, 78, or 79).");
+            } else {
+                this.setCustomValidity("");
+            }
+        });
+
         document.getElementById('order_place').addEventListener('submit', function (e) {
             e.preventDefault();
             let formIsValid = true;
-            $('#loading').show();
-            let data = {
-                name: $('#name_input').val(),
-                phone: $('#phone_input').val(),
-                address: $('#address_input').val(),
-                payment_currency: $('#payment_currency_select').val(),
-                payment_type: $('#payment_type_select').val(),
-                amount: $('#amount_input').val(),
-            };
+            let phone = $('#phone_input').val().trim();
+            let lebanonPhonePattern = /^(03|70|71|76|78|79)\d{6}$/;
+
+            if (!lebanonPhonePattern.test(phone)) {
+                toastr.error("Please enter a valid Lebanese phone number.", { CloseButton: true, ProgressBar: true });
+                formIsValid = false;
+            }
 
             if (formIsValid) {
+                $('#loading').show();
+                let data = {
+                    name: $('#name_input').val(),
+                    phone: $('#phone_input').val(),
+                    address: $('#address_input').val(),
+                    payment_currency: $('#payment_currency_select').val(),
+                    payment_type: $('input[name="payment_type"]:checked').val(),
+                    amount: $('#amount_input').val(),
+                };
                 $.ajax({
                     url: '{{ route('store') }}',
                     method: 'POST',

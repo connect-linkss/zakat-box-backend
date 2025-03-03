@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="{{asset('public/assets/admin/css/toastr.css')}}">
 </head>
 
-<body class="footer-offset">
+<body class="footer-offset" style="direction: rtl;">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -30,8 +30,8 @@
             </div>
         </div>
     </div>
-    @include('layouts.front.partials._header')
-    <main id="content" style="margin-top: 40px;" role="main" class="main pointer-event">
+
+    <main id="content" style="margin-top: 20px;" role="main" class="main pointer-event">
         @yield('content')
         @include('layouts.front.partials._footer')
     </main>
@@ -81,7 +81,7 @@
                 type: 'warning',
                 showCancelButton: true,
                 cancelButtonColor: 'default',
-                confirmButtonColor: '#673ab7',
+                confirmButtonColor: '#084b66',
                 cancelButtonText: '{{translate("No")}}',
                 confirmButtonText: '{{translate("Yes")}}',
                 reverseButtons: true
@@ -103,7 +103,7 @@
                 type: 'warning',
                 showCancelButton: true,
                 cancelButtonColor: 'default',
-                confirmButtonColor: '#673ab7',
+                confirmButtonColor: '#084b66',
                 cancelButtonText: '{{translate("No")}}',
                 confirmButtonText: '{{translate("Yes")}}',
                 reverseButtons: true
