@@ -23,8 +23,8 @@
         <div class="row">
             <div class="col-md-12">
                 <div id="loading" class="d--none">
-                    <div class="loader-wrap">
-                        <img width="200" src="{{asset('public/assets/admin/img/loader.gif')}}">
+                    <div class="loader-wrap" style="display: flex;left: 0%;">
+                        <img width="200" style="margin: auto;" src="{{asset('public/assets/admin/img/loader.gif')}}">
                     </div>
                 </div>
             </div>

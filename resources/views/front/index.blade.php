@@ -2,15 +2,15 @@
 
 @section('title', translate('product List'))
 @section('content')
-<div class="content container-fluid">
+<div class="content container-fluid" style=" padding-top: 0px !important">
     <div class="d-flex justify-content-center mb-1">
         @php($logo = \app\CentralLogics\Helpers::get_business_settings('logo'))
         <img style="width: 180px;" src="{{'/public/images/' . $logo}}">
     </div>
     <div class="card" style="text-align: center">
-        <div class="px-10 py-3 d-flex flex-wrap gap-3 justify-content-between">
+        <div class="need_resize_padding  py-3 d-flex gap-3 justify-content-between ">
             <div class="d-flex align-items-center gap-4">
-                <h5 class="d-flex align-items-center gap-2 mb-0" style="font-size: 20px;
+                <h5 class="d-flex align-items-center gap-2 mb-0 text_count_donate" style="font-size: 20px;
 }">
                     {{translate('عدد المتبرعين')}}
                 </h5>
@@ -28,7 +28,7 @@
                         {{$dollar_some }} $
                     </span>
                 </div>
-                <div>|</div>
+                <div class="billing_seperate">|</div>
                 <div>
                     <span class="title">{{ translate('لبناني') }}: </span>
                     <span class="value bold" id="total_sum_ll">
@@ -39,8 +39,7 @@
         </div>
         <div class="table-responsive datatable-custom"
             style="max-height: 600px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #c4c4c4 #f1f1f1;">
-            <table
-                class="table table-hover table-borderless table-thead-bordered table-nowrap table-align-middle card-table">
+            <table class="table table-hover text-center table-bordered">
                 <thead class="thead-light">
                     <tr>
                         <th>{{translate('الرقم')}}</th>
@@ -85,6 +84,56 @@
 
     tr {
         transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    }
+
+    .need_resize_padding {
+        padding-inline-start: 1rem !important;
+        padding-inline-end: 1rem !important;
+    }
+
+    @media (max-width: 768px) {
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .billing {
+            flex-direction: column;
+            font-size: 12px;
+            gap: 5px !important;
+        }
+
+        .billing div {
+            justify-content: center;
+        }
+
+        .billing_seperate {
+            display: none
+        }
+
+        .table th,
+        .table td {
+            font-size: 12px;
+            padding: 5px;
+        }
+
+        .text_count_donate {
+            font-size: 12px;
+            padding: 5px;
+        }
+
+        #total_scount_dollar,
+        #total_sum_dollar,
+        #total_sum_ll {
+            font-size: 12px;
+            padding: 5px;
+        }
+
+        .need_resize_padding {
+            padding: 3px !important;
+            padding-inline-start: 0.4rem !important;
+            padding-inline-end: 0.4rem !important;
+        }
+
     }
 </style>
 @push('script_2')

@@ -2,8 +2,6 @@
 
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BusinessSettingsController;
-use App\Http\Controllers\DatabaseSettingsController;
 use App\Http\Controllers\SystemController;
 use App\Http\Controllers\ZakatController;
 use App\Http\Controllers\LoginController;
@@ -13,7 +11,6 @@ use App\Http\Middleware\RedirectIfAuthenticated;
 Route::get('/', [ZakatController::class, 'donate'])->name('donate');
 Route::get('/data', [ZakatController::class, 'data'])->name('data');
 Route::get('/donate-list', [ZakatController::class, 'index'])->name('index');
-Route::get('/donate', [ZakatController::class, 'donate'])->name('donate');
 Route::post('/store', [ZakatController::class, 'store'])->name('store');
 
 
@@ -39,7 +36,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::post('settings-password', [SystemController::class, 'settingsPasswordUpdate'])->name('settings-password');
 
         Route::group(['prefix' => 'donate', 'as' => 'donate.'], function () {
-            Route::get('filter', [SystemController::class, 'filter'])->name('filter');
+            Route::get('filter', [SystemController::class, 'data'])->name('filter');
         });
     });
 });

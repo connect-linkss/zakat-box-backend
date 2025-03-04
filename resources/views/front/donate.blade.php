@@ -153,7 +153,10 @@
                         } else {
                             toastr.success('{{ translate("donate saved successfully!") }}', { CloseButton: true, ProgressBar: true });
                             $('#thanks_message').modal('show');
-                            print_invoice(response.id);
+                            $('#name_input').val('');
+                            $('#phone_input').val('');
+                            $('#address_input').val('');
+                            $('#amount_input').val(0);
                         }
                     },
                     error: function (xhr) {
