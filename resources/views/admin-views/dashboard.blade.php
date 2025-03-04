@@ -16,16 +16,16 @@
                 </h5>
                 <div class="billing">
                     <div>
-                        <span class="title">{{ translate('dollar') }}: </span>
+                        <span class="title">{{ translate('دولار') }}: </span>
                         <span class="value bold" id="total_sum_dollar">
-                            {{ App\Models\Donate::getTodayTotalByType()['dollar'] }} $
+                            {{$dollar_some }} $
                         </span>
                     </div>
                     <div>|</div>
                     <div>
-                        <span class="title">{{ translate('ll') }}: </span>
+                        <span class="title">{{ translate('لبناني') }}: </span>
                         <span class="value bold" id="total_sum_ll">
-                            {{ App\Models\Donate::getTodayTotalByType()['lebanon'] }} $
+                            {{ $ll_some }} LL
                         </span>
                     </div>
                 </div>
@@ -36,24 +36,27 @@
                     class="table table-hover table-borderless table-thead-bordered table-nowrap table-align-middle card-table">
                     <thead class="thead-light">
                         <tr>
-                            <th>{{translate('name')}}</th>
-                            <th>{{translate('details')}}</th>
-                            <th>{{translate('amount')}}</th>
-                            <th>{{translate('payment_type')}}</th>
-                            <th>{{translate('whatsaspp')}}</th>
+                            <th>{{translate('الرقم')}}</th>
+
+                            <th>{{translate('الاسم الثلاثي')}}</th>
+                            <th>{{translate('معلومات')}}</th>
+                            <th>{{translate('المبلغ')}}</th>
+                            <th>{{translate('طريقة الدفع')}}</th>
+                            {{-- <th>{{translate('whatsaspp')}}</th> --}}
                         </tr>
                     </thead>
                     <tbody id="set-rows">
                         @foreach($donates as $donate)
                             <tr>
+                                <td>{{ $donate['id'] }}</td>
                                 <td>{{ $donate['name'] }}</td>
                                 <td>
                                     <p>{{ $donate['address'] }}</p>
                                     <p>{{ $donate['phone'] }}</p>
                                 </td>
                                 <td>{{ $donate['amount']  }} {{ $donate['payment_currency'] == 1 ? '$' : 'LL'  }}</td>
-                                <td>{{ $donate['payment_type'] == 1 ? 'now' : 'later' }}</td>
-                                <td>{{ $donate['whatsaspp'] == 1 ? 'no' : 'yes' }}</td>
+                                <td>{{ $donate['payment_type'] == 1 ? translate('نقدا') : translate('مراجعة لاحقا')}}</td>
+                                {{-- <td>{{ $donate['whatsaspp'] == 1 ? 'no' : 'yes' }}</td> --}}
                             </tr>
                         @endforeach
                     </tbody>

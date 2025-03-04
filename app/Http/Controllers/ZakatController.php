@@ -23,10 +23,12 @@ class ZakatController extends Controller
     public function index(Request $request)
     {
         $donates = $this->donates->latest()->limit(20)->get();
-        $dollar_some = Donate::where('payment_currency', 1)->sum('amount');
-        $ll_some = Donate::where('payment_currency', 2)->sum('amount');
+
+        $dollar_some = number_format((int)Donate::where('payment_currency', 1)->sum('amount'), 0, '', ',');
+        $ll_some = number_format((int)Donate::where('payment_currency', 2)->sum('amount'), 0, '', ',');
+        $donateCount = Donate::count();
         $last_id = $donates->isNotEmpty() ? $donates->first()->id : 0;
-        return view('front.index', compact('donates', 'dollar_some', 'll_some', 'last_id'));
+        return view('front.index', compact('donates', 'dollar_some', 'll_some', 'last_id', 'donateCount'));
     }
 
     public function donate()
@@ -50,6 +52,7 @@ class ZakatController extends Controller
         }
         $dollar_some = Donate::where('payment_currency', 1)->sum('amount');
         $ll_some = Donate::where('payment_currency', 2)->sum('amount');
+        $donateCount = Donate::count();
         $customersHTML = view('front.partials.donates_rows', compact('donates'))->render();
         return response()->json([
             'customersHTML' => $customersHTML,
@@ -57,6 +60,7 @@ class ZakatController extends Controller
             'last_id' => $last_id,
             'dollar_some' => $dollar_some,
             'll_some' => $ll_some,
+            'donateCount' => $donateCount,
         ]);
     }
     public function store(Request $request)

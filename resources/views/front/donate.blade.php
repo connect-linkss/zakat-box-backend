@@ -1,102 +1,105 @@
 @extends('layouts.front.app')
 @section('title', translate('Donate'))
 @section('content')
-    <div class="content container-fluid" style="padding-top: 5px">
+<div class="content container-fluid" style="padding-top: 5px">
 
-        <div class="d-flex justify-content-center mb-4">
-            @php($logo = \app\CentralLogics\Helpers::get_business_settings('logo'))
-            <img style="width: 150px;" src="{{'/public/images/' . $logo}}">
-        </div>
+    <div class="d-flex justify-content-center mb-4">
+        @php($logo = \app\CentralLogics\Helpers::get_business_settings('logo'))
+        <img style="width: 150px;" src="{{'/public/images/' . $logo}}">
+    </div>
 
-        <div class="add-services-container">
-            <div class="col-sm-12 col-md-10 col-lg-8  mb-12 mx-auto card" style="max-width: 500px;">
-                <div class="card-body">
-                    <div class="pl-2">
-                        <div class="row">
-                            <div class="col-sm-6 form-group">
-                                <label class="input-label">{{ translate('الاسم الثلاثي') }}<span
+    <div class="add-services-container">
+        <div class="col-sm-12 col-md-10 col-lg-8  mb-12 mx-auto card" style="max-width: 500px;">
+            <div class="card-body">
+                <div class="pl-2">
+                    <div class="row">
+                        <div class="col-sm-6 form-group">
+                            <label class="input-label">{{ translate('الاسم الثلاثي') }}<span
+                                    class="input-label-secondary text-danger">*</span></label>
+                            <input type="text" name="name" class="form-control" placeholder="{{ translate('') }}"
+                                required id="name_input"
+                                oninput="this.value = this.value.replace(/\b\w/g, char => char.toUpperCase())">
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label class="input-label">{{ translate('رقم الهاتف') }}<span
+                                    class="input-label-secondary text-danger">*</span></label>
+                            <input type="text" name="phone" class="form-control" id="phone_input"
+                                placeholder="{{ translate('') }}">
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label class="input-label">{{ translate('العنوان (اختياري)') }}</label>
+                            <input type="text" name="address" class="form-control" id="address_input"
+                                placeholder="{{ translate('') }}">
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="input-label">{{translate('آلية الدفع')}}<span
                                         class="input-label-secondary text-danger">*</span></label>
-                                <input type="text" name="name" class="form-control" placeholder="{{ translate('') }}"
-                                    required id="name_input"
-                                    oninput="this.value = this.value.replace(/\b\w/g, char => char.toUpperCase())">
-                            </div>
-                            <div class="col-sm-6 form-group">
-                                <label class="input-label">{{ translate('رقم الهاتف') }}<span
-                                class="input-label-secondary text-danger">*</span></label>
-                                <input type="text" name="phone" class="form-control" id="phone_input"
-                                    placeholder="{{ translate('') }}">
-                            </div>
-                            <div class="col-sm-6 form-group">
-                                <label class="input-label">{{ translate('العنوان (اختياري)') }}</label>
-                                <input type="text" name="address" class="form-control" id="address_input"
-                                    placeholder="{{ translate('') }}">
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label class="input-label">{{translate('آلية الدفع')}}<span class="input-label-secondary text-danger">*</span></label>
-                                    <div class="d-flex gap-4" style="margin-top: 18px">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="payment_type" id="payment_type_cash" value="1" checked>
-                                            <label class="form-check-label" for="payment_type_cash">نقدا</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="payment_type" id="payment_type_later" value="2">
-                                            <label class="form-check-label" for="payment_type_later">مراجعة لاحقا</label>
-                                        </div>
+                                <div class="d-flex gap-4" style="margin-top: 18px">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="payment_type"
+                                            id="payment_type_cash" value="1" checked>
+                                        <label class="form-check-label" for="payment_type_cash">نقدا</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="payment_type"
+                                            id="payment_type_later" value="2">
+                                        <label class="form-check-label" for="payment_type_later">مراجعة لاحقا</label>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label class="input-label">{{translate('العملة')}}<span
-                                            class="input-label-secondary text-danger">*</span></label>
-                                    <select name="brand" class="form-control payment_currency_select "
-                                        id="payment_currency_select">
-                                        <option value="1">دولار</option>
-                                        <option value="2">لبناني</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label class="input-label">{{translate('قيمة التبرع')}}<span
-                                            class="input-label-secondary text-danger">*</span></label>
-                                    <input type="numeric" name="amount" class="form-control" value="0" id="amount_input"
-                                        placeholder="{{ translate('') }}">
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <form action="javascript:" id='order_place' method="post">
-                                    <button type="submit" class="btn  btn-primary btn-block"><i
-                                            class="fa fa-shopping-bag"></i>
-                                        {{translate('تبرع')}} </button>
-                                </form>
-                            </div>
                         </div>
 
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="input-label">{{translate('العملة')}}<span
+                                        class="input-label-secondary text-danger">*</span></label>
+                                <select name="brand" class="form-control payment_currency_select "
+                                    id="payment_currency_select">
+                                    <option value="1">دولار</option>
+                                    <option value="2">لبناني</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="input-label">{{translate('قيمة التبرع')}}<span
+                                        class="input-label-secondary text-danger">*</span></label>
+                                <input type="numeric" name="amount" class="form-control" value="0" id="amount_input"
+                                    placeholder="{{ translate('') }}">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <form action="javascript:" id='order_place' method="post">
+                                <button type="submit" class="btn  btn-primary btn-block"><i
+                                        class="fa fa-shopping-bag"></i>
+                                    {{translate('تبرع')}} </button>
+                            </form>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="thanks_message" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
+</div>
+<div class="modal fade" id="thanks_message" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
-                <div class="modal-body">
-                    <div class="d-flex align-items-center gap-2 justify-content-center" style="flex-direction: column;">
-                        <div class="d-flex justify-content-center mb-4">
-                            <img style="width: 150px;" src="{{'/public/images/' . $logo}}">
-                        </div>
-                        <p style="font-size: 24px; margin-bottom: 30px;">أخلف الله عليكم من فضله</p>
-                        <a href="{{ route('index') }}"
-                            class="btn btn-success non-printable">{{ translate('الذهاب للصفحة الرئيسية') }}</a>
+            <div class="modal-body">
+                <div class="d-flex align-items-center gap-2 justify-content-center" style="flex-direction: column;">
+                    <div class="d-flex justify-content-center mb-4">
+                        <img style="width: 150px;" src="{{'/public/images/' . $logo}}">
                     </div>
+                    <p style="font-size: 24px; margin-bottom: 30px;">أخلف الله عليكم من فضله</p>
+                    <a href="{{ route('index') }}"
+                        class="btn btn-success non-printable">{{ translate('الذهاب للصفحة الرئيسية') }}</a>
                 </div>
             </div>
         </div>
     </div>
+</div>
 @endsection
 @push('script_2')
     <script>
@@ -117,7 +120,7 @@
             e.preventDefault();
             let formIsValid = true;
             let phone = $('#phone_input').val().trim();
-            let lebanonPhonePattern = /^(03|70|71|76|78|79)\d{6}$/;
+            let lebanonPhonePattern = /^(03|70|71|76|81|78|79)\d{6}$/;
 
             if (!lebanonPhonePattern.test(phone)) {
                 toastr.error("Please enter a valid Lebanese phone number.", { CloseButton: true, ProgressBar: true });
