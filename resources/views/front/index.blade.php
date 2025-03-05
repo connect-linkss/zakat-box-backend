@@ -70,9 +70,7 @@
             </div>
         @endif
     </div>
-    {{-- <audio id="myAudio3" style="display: none">
-        <source src="{{asset('public/assets/rclick-13693.mp3')}}" type="audio/mpeg">
-    </audio> --}}
+
 </div>
 @endsection
 <style>
@@ -133,7 +131,6 @@
             padding-inline-start: 0.4rem !important;
             padding-inline-end: 0.4rem !important;
         }
-
     }
 </style>
 @push('script_2')
@@ -146,7 +143,6 @@
                 data: { last_id: lastId },
                 success: function (response) {
                     if (response.addNew) {
-                        // document.getElementById("myAudio3").play();
                         let newRows = $(response.customersHTML);
                         newRows.hide().prependTo('#set-rows').slideDown(500).addClass('highlight');
                         lastId = response.last_id;
@@ -158,10 +154,14 @@
                 },
                 error: function () {
                     console.error('Error fetching data');
+                },
+                complete: function () {
+                    setTimeout(fetchData, 3500);
                 }
             });
-            setTimeout(fetchData, 2000);
         }
-        document.addEventListener('DOMContentLoaded', fetchData);
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(fetchData, 3500);
+        });
     </script>
 @endpush
