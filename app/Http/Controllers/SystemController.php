@@ -80,41 +80,45 @@ class SystemController extends Controller
 
 
 
-
-
-
-
     public function index(Request $request)
     {
-        $donates = $this->donates->latest()->limit(20)->get();
-        $dollar_some = Donate::where('payment_currency', 1)->sum('amount');
-        $ll_some = Donate::where('payment_currency', 2)->sum('amount');
-        $last_id = $donates->isNotEmpty() ? $donates->first()->id : 0;
-        return view('admin-views.dashboard', compact('donates', 'dollar_some', 'll_some', 'last_id'));
+        $donates = $this->donates->orderBy('id', 'DESC')->limit(50)->get();
+        $dollar_some = number_format((int)Donate::where('payment_currency', 1)->sum('amount'), 0, '', ',');
+        $ll_some = number_format((int)Donate::where('payment_currency', 2)->sum('amount'), 0, '', ',');
+        return view('admin-views.dashboard', compact('donates', 'dollar_some', 'll_some'));
     }
 
     public function data(Request $request)
     {
-        $addNew = false;
-        $last_id = $request->last_id;
-        if ($last_id > 0) {
-            $donates = $this->donates->where('id', '>', $last_id)->latest()->get();
-            $last_id = $donates->isNotEmpty() ? $donates->first()->id : 0;
-        } else {
-            $donates = $this->donates->latest()->get();
+        $search = $request->search;
+        $status = $request->status;
+        $donates = $this->donates->query();
+        if (!empty($search)) {
+            $donates->where(function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%");
+            });
         }
-        if ($donates->count() > 0) {
-            $addNew = true;
+        if (in_array($status, [1, 2])) {
+            $donates->where('status', $status);
         }
-        $dollar_some = Donate::where('payment_currency', 1)->sum('amount');
-        $ll_some = Donate::where('payment_currency', 2)->sum('amount');
+        $donates = $donates->orderBy('id', 'DESC')->get();
+        $dollar_some = number_format((int)Donate::where('payment_currency', 1)->sum('amount'), 0, '', ',');
+        $ll_some = number_format((int)Donate::where('payment_currency', 2)->sum('amount'), 0, '', ',');
         $customersHTML = view('admin-views.partials.donates_rows', compact('donates'))->render();
         return response()->json([
             'customersHTML' => $customersHTML,
-            'addNew' => $addNew,
-            'last_id' => $last_id,
             'dollar_some' => $dollar_some,
             'll_some' => $ll_some,
         ]);
+    }
+
+    public function status(Request $request): RedirectResponse
+    {
+        $banner = $this->donates->find($request->id);
+        $banner->status = $request->status;
+        $banner->save();
+        Toastr::success(translate('donates status updated!'));
+        return back();
     }
 }

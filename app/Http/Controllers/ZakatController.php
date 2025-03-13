@@ -22,7 +22,7 @@ class ZakatController extends Controller
      */
     public function index(Request $request)
     {
-        $donates = $this->donates->latest()->limit(20)->get();
+        $donates = $this->donates->orderBy('id', 'DESC')->limit(20)->get();
 
         $dollar_some = number_format((int)Donate::where('payment_currency', 1)->sum('amount'), 0, '', ',');
         $ll_some = number_format((int)Donate::where('payment_currency', 2)->sum('amount'), 0, '', ',');
@@ -31,9 +31,24 @@ class ZakatController extends Controller
         return view('front.index', compact('donates', 'dollar_some', 'll_some', 'last_id', 'donateCount'));
     }
 
+    public function indexCustomer(Request $request)
+    {
+        $donates = $this->donates->orderBy('id', 'DESC')->limit(20)->get();
+        $dollar_some = number_format((int)Donate::where('payment_currency', 1)->sum('amount'), 0, '', ',');
+        $ll_some = number_format((int)Donate::where('payment_currency', 2)->sum('amount'), 0, '', ',');
+        $donateCount = Donate::count();
+        $last_id = $donates->isNotEmpty() ? $donates->first()->id : 0;
+        return view('front.index-customer', compact('donates', 'dollar_some', 'll_some', 'last_id', 'donateCount'));
+    }
+
     public function donate()
     {
         return view('front.donate');
+    }
+
+    public function test()
+    {
+        return view('front.test');
     }
 
     public function data(Request $request)
@@ -41,17 +56,17 @@ class ZakatController extends Controller
         $addNew = false;
         $last_id = $request->last_id;
         if ($last_id > 0) {
-            $donates = $this->donates->where('id', '>', $last_id)->latest()->get();
+            $donates = $this->donates->where('id', '>', $last_id)->orderBy('id', 'DESC')->get();
             $last_id = $donates->isNotEmpty() ? $donates->first()->id : 0;
         } else {
-            $donates = $this->donates->latest()->get();
+            $donates = $this->donates->orderBy('id', 'DESC')->get();
         }
 
         if ($donates->count() > 0) {
             $addNew = true;
         }
-        $dollar_some = Donate::where('payment_currency', 1)->sum('amount');
-        $ll_some = Donate::where('payment_currency', 2)->sum('amount');
+        $dollar_some = number_format(Donate::where('payment_currency', 1)->sum('amount'), 0, '', ',');
+        $ll_some = number_format(Donate::where('payment_currency', 2)->sum('amount'), 0, '', ',');
         $donateCount = Donate::count();
         $customersHTML = view('front.partials.donates_rows', compact('donates'))->render();
         return response()->json([

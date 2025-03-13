@@ -24,7 +24,7 @@ class Donate extends Model
     protected function casts(): array
     {
         return [
-            'amount' => 'decimal:2',
+            'amount' => 'decimal:1',
         ];
     }
     public static function getTodayTotalByType(): array

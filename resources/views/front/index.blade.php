@@ -153,7 +153,7 @@
                     }
                 },
                 error: function () {
-                    console.error('Error fetching data');
+                    setTimeout(fetchData, 3500);
                 },
                 complete: function () {
                     setTimeout(fetchData, 3500);

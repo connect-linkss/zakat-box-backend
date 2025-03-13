@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('phone', 200)->nullable();
             $table->string('name', 200)->nullable();
             $table->string('note')->nullable();
-            $table->decimal('amount', 10, 2)->default(0.0);
+            $table->decimal('amount', 15, 1)->default(0.0);
             $table->tinyInteger('payment_type')->default(2)->index()->comment("1:later ,2:cash");
             $table->tinyInteger('payment_currency')->default(1)->index()->comment("1:$ ,2:ll");
             $table->tinyInteger('whastapp')->default(1)->comment("1:no 2:yes");

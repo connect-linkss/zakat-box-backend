@@ -65,8 +65,8 @@
                             <div class="form-group">
                                 <label class="input-label">{{translate('قيمة التبرع')}}<span
                                         class="input-label-secondary text-danger">*</span></label>
-                                <input type="numeric" name="amount" class="form-control" value="0" id="amount_input"
-                                    placeholder="{{ translate('') }}">
+                                <input type="numeric" name="amount" class="form-control" value="" id="amount_input"
+                                    placeholder="{{ translate('0') }}">
                             </div>
                         </div>
                         <div class="col-sm-12">
@@ -77,7 +77,6 @@
                             </form>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -86,14 +85,13 @@
 <div class="modal fade" id="thanks_message" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-
             <div class="modal-body">
                 <div class="d-flex align-items-center gap-2 justify-content-center" style="flex-direction: column;">
                     <div class="d-flex justify-content-center mb-4">
                         <img style="width: 150px;" src="{{'/public/images/' . $logo}}">
                     </div>
                     <p style="font-size: 24px; margin-bottom: 30px;">أخلف الله عليكم من فضله</p>
-                    <a href="{{ route('index') }}"
+                    <a href="{{ route('indexCustomer') }}"
                         class="btn btn-success non-printable">{{ translate('الذهاب للصفحة الرئيسية') }}</a>
                 </div>
             </div>
@@ -104,11 +102,9 @@
 @push('script_2')
     <script>
         "use strict";
-
         document.getElementById('phone_input').addEventListener('input', function () {
             let phone = this.value.trim();
             let lebanonPhonePattern = /^(03|70|71|76|78|79)\d{6}$/;
-
             if (!lebanonPhonePattern.test(phone)) {
                 this.setCustomValidity("Please enter a valid Lebanese phone number (8 digits starting with 03, 70, 71, 76, 78, or 79).");
             } else {
@@ -116,14 +112,35 @@
             }
         });
 
+        document.getElementById('amount_input').addEventListener('input', function () {
+            let arabicNumbers = "٠١٢٣٤٥٦٧٨٩";
+            let englishNumbers = "0123456789";
+            let rawValue = this.value.replace(/[٠١٢٣٤٥٦٧٨٩]/g, d => englishNumbers[arabicNumbers.indexOf(d)]);
+            rawValue = rawValue.replace(/[^0-9.]/g, '');
+            if (!isNaN(rawValue) && rawValue !== '') {
+                this.value = Number(rawValue).toLocaleString('en-US');
+            }
+        });
         document.getElementById('order_place').addEventListener('submit', function (e) {
             e.preventDefault();
+            function convertArabicToEnglish(text) {
+                if (!text) return "";
+                let arabicNumbers = "٠١٢٣٤٥٦٧٨٩";
+                return text.replace(/[٠١٢٣٤٥٦٧٨٩]/g, d => arabicNumbers.indexOf(d));
+            }
+            let amountField = document.getElementById('amount_input');
+            let rawAmount = convertArabicToEnglish(amountField.value).replace(/,/g, '');
             let formIsValid = true;
-            let phone = $('#phone_input').val().trim();
+            let phone = convertArabicToEnglish($('#phone_input').val().trim());
+            let phoneForValidation = phone.replace(/[٠١٢٣٤٥٦٧٨٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
             let lebanonPhonePattern = /^(03|70|71|76|81|78|79)\d{6}$/;
-
             if (!lebanonPhonePattern.test(phone)) {
-                toastr.error("Please enter a valid Lebanese phone number.", { CloseButton: true, ProgressBar: true });
+                toastr.error("الرجاء إدخال رقم هاتف لبناني صحيح.", { CloseButton: true, ProgressBar: true });
+                formIsValid = false;
+            }
+
+            if (rawAmount === '' || isNaN(rawAmount) || parseFloat(rawAmount) <= 0) {
+                toastr.error("الرجاء إدخال قيمة تبرع صالحة (يجب أن يكون رقمًا أكبر من 0).", { CloseButton: true, ProgressBar: true });
                 formIsValid = false;
             }
 
@@ -135,7 +152,7 @@
                     address: $('#address_input').val(),
                     payment_currency: $('#payment_currency_select').val(),
                     payment_type: $('input[name="payment_type"]:checked').val(),
-                    amount: $('#amount_input').val(),
+                    amount: rawAmount,
                 };
                 $.ajax({
                     url: '{{ route('store') }}',
@@ -151,7 +168,7 @@
                         if (response.errors) {
                             toastr.error('{{ translate("Error occurred while saving order.") }}', { CloseButton: true, ProgressBar: true });
                         } else {
-                            toastr.success('{{ translate("donate saved successfully!") }}', { CloseButton: true, ProgressBar: true });
+                            // toastr.success('{{ translate("donate saved successfully!") }}', { CloseButton: true, ProgressBar: true });
                             $('#thanks_message').modal('show');
                             $('#name_input').val('');
                             $('#phone_input').val('');
@@ -167,7 +184,7 @@
                 });
             } else {
                 $('#loading').hide();
-                toastr.error('{{ translate("Please fill all required fields.") }}', { CloseButton: true, ProgressBar: true });
+                toastr.error('{{ translate("يرجى ملء جميع الحقول المطلوبة.") }}', { CloseButton: true, ProgressBar: true });
             }
         });
     </script>
