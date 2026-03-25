@@ -73,7 +73,7 @@
                             <form action="javascript:" id='order_place' method="post">
                                 <button type="submit" class="btn  btn-primary btn-block"><i
                                         class="fa fa-shopping-bag"></i>
-                                    {{translate('تبرع')}} </button>
+                                    {{translate('تعهد')}} </button>
                             </form>
                         </div>
                     </div>
